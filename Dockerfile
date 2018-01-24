@@ -115,7 +115,10 @@ WORKDIR /home/fabian/demo
 
 # Legacy Java application
 
-COPY --chown=fabian:fabian legacy-java-application /home/fabian/demo/legacy-java-application
+# COPY --chown=fabian:fabian not supported on hub.docker.com
+COPY legacy-java-application /home/fabian/demo/legacy-java-application
+RUN sudo chown -R fabian:fabian /home/fabian/demo/legacy-java-application
+
 RUN cd legacy-java-application && \
     mvn clean verify && \
     cd ..
@@ -124,24 +127,33 @@ EXPOSE 9999
 
 # Logfile example
 
-COPY --chown=fabian:fabian logfile-example /home/fabian/demo/logfile-example
+# COPY --chown=fabian:fabian not supported on hub.docker.com
+COPY logfile-example /home/fabian/demo/logfile-example
+RUN sudo chown -R fabian:fabian /home/fabian/demo/logfile-example
 RUN ln -s $GOPATH/src/github.com/fstab/grok_exporter/logstash-patterns-core/patterns/ logfile-example/patterns
 EXPOSE 9144
 
 # Blackbox example
 
-COPY --chown=fabian:fabian blackbox-example/blackbox.yml /home/fabian/demo/blackbox-example/blackbox.yml
-COPY --chown=fabian:fabian blackbox-example/print-url.sh /home/fabian/demo/blackbox-example/print-url.sh
+# COPY --chown=fabian:fabian not supported on hub.docker.com
+COPY blackbox-example/blackbox.yml /home/fabian/demo/blackbox-example/blackbox.yml
+RUN sudo chown -R fabian:fabian /home/fabian/demo/blackbox-example/blackbox.yml
+COPY blackbox-example/print-url.sh /home/fabian/demo/blackbox-example/print-url.sh
+RUN sudo chown -R fabian:fabian /home/fabian/demo/blackbox-example/print-url.sh
 EXPOSE 9115
 
 # JMX example
 
-COPY --chown=fabian:fabian jmx-exporter/tomcat.yml /home/fabian/demo/jmx-exporter/tomcat.yml
+# COPY --chown=fabian:fabian not supported on hub.docker.com
+COPY jmx-exporter/tomcat.yml /home/fabian/demo/jmx-exporter/tomcat.yml
+RUN sudo chown -R fabian:fabian /home/fabian/demo/jmx-exporter/tomcat.yml
 EXPOSE 1234
 
 # Promagent example
 
-COPY --chown=fabian:fabian promagent-example /home/fabian/demo/promagent-example
+# COPY --chown=fabian:fabian not supported on hub.docker.com
+COPY promagent-example /home/fabian/demo/promagent-example
+RUN sudo chown -R fabian:fabian /home/fabian/demo/promagent-example
 EXPOSE 9300
 
 # ---------------- FOSDEM 2018 | slides --------------------------------------
@@ -151,8 +163,11 @@ WORKDIR /home/fabian/slides
 USER root
 RUN apt-get install -y patat
 USER fabian
-COPY --chown=fabian:fabian slides/presentation.md /home/fabian/slides/presentation.md
-COPY --chown=fabian:fabian slides/show-slides.sh /home/fabian/slides/show-slides.sh
+# COPY --chown=fabian:fabian not supported on hub.docker.com
+COPY slides/presentation.md /home/fabian/slides/presentation.md
+RUN sudo chown -R fabian:fabian /home/fabian/slides/presentation.md
+COPY slides/show-slides.sh /home/fabian/slides/show-slides.sh
+RUN sudo chown -R fabian:fabian /home/fabian/slides/show-slides.sh
 
 # -----------------------------------------------------------------------------
 
