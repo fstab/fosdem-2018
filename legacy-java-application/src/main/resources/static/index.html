@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Java Application</title>
+    <style>
+        body {
+            background: lightgoldenrodyellow;
+        }
+        #result {
+            width: 40em;
+            min-height: 20em;
+            border: 1px solid black;
+            background: white;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>Demo Java Application</h1>
+<h2>Action:</h2>
+<ul>
+    <li><a id="alice" href="#">successful request for user 'Alice'</a> <small>(<a href="/api/hello/Alice">/api/hello/Alice</a>)</small></li>
+    <li><a id="bob" href="#">successful request for user 'Bob'</a> <small>(<a href="/api/hello/Bob">/api/hello/Bob</a>)</small></li>
+    <li><a id="throw" href="#">throw an Exception</a> <small>(<a href="/api/throw">/api/throw</a>)</small></li>
+    <li><a id="sleep" href="#">sleep one second</a> <small>(<a href="/api/sleep/1000">/api/sleep/1000</a>)</small></li>
+</ul>
+<h2>Result:</h2>
+<pre id="result"></pre>
+<script>
+$(document).ready(function() {
+
+    $("#alice").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "/api/hello/Alice"
+        }).then(
+            function (data) {
+                $('#result').text(data);
+            },
+            function(jqXHR, textStatus) {
+                $('#result').text(jqXHR.status + ": " + textStatus)
+            }
+        );
+    });
+
+    $("#bob").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "/api/hello/Bob"
+        }).then(
+            function (data) {
+                $('#result').text(data);
+            },
+            function(jqXHR, textStatus) {
+                $('#result').text(jqXHR.status + ": " + textStatus)
+            }
+        );
+    });
+
+    $("#throw").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "/api/throw"
+        }).then(
+            function (data) {
+                $('#result').text(data);
+            },
+            function(jqXHR, textStatus) {
+                $('#result').text(jqXHR.status + ": " + textStatus)
+            }
+        );
+    });
+
+    $("#sleep").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "/api/sleep/1000"
+        }).then(
+            function (data) {
+                $('#result').text(data);
+            },
+            function(jqXHR, textStatus) {
+                $('#result').text(jqXHR.status + ": " + textStatus)
+            }
+        );
+    });
+});
+</script>
+</body>
+
+</html>

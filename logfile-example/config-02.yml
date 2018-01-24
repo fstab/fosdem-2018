@@ -1,0 +1,20 @@
+global:
+    config_version: 2
+input:
+    type: file
+    path: ../../demo/legacy-java-application/legacy-java-application.log
+    readall: true
+grok:
+    patterns_dir: ./patterns
+    additional_patterns:
+    - 'PATH [a-zA-Z0-9/]+'
+metrics:
+    - type: counter
+      name: rest_endpoint_logs_total
+      help: Total number of log lines by the RestEndpoint
+      match: '.* %{LOGLEVEL:level} +d.f.l.RestEndpoint - GET %{PATH:path} - duration %{NUMBER}s.*'
+      labels:
+          level: '{{.level}}'
+          path: '{{.path}}'
+server:
+    port: 9144

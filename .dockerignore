@@ -1,0 +1,5 @@
+logfile-example/patterns
+*/*.log
+*/target/
+*/.idea
+*/*.iml
