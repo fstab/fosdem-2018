@@ -1,7 +1,7 @@
 FROM ubuntu:17.10
 MAINTAINER Fabian Stäber, fabian@fstab.de
 
-ENV LAST_UPDATE=2018-01-20
+ENV LAST_UPDATE=2018-01-26
 
 RUN apt-get update && \
     apt-get upgrade -y
