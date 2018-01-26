@@ -44,9 +44,15 @@ RUN apt-get install -y \
 
 RUN cd /opt && \
     curl --silent --location --cookie "oraclelicense=accept-securebackup-cookie" -O http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz && \
-    tar xfz jdk-8u161-linux-x64.tar.gz && \
     curl --silent -O http://ftp.fau.de/apache/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz && \
-    tar xfz apache-maven-3.5.2-bin.tar.gz
+    echo '190dcebb8a080f983af4420cac4f3ece7a47dd64  apache-maven-3.5.2-bin.tar.gz' > checksums.txt && \
+    echo '9662b358ec90ecdc2c06acc2e326fbf25eaf567d  jdk-8u161-linux-x64.tar.gz' >> checksums.txt && \
+    sha1sum -c checksums.txt && \
+    tar xfz jdk-8u161-linux-x64.tar.gz && \
+    tar xfz apache-maven-3.5.2-bin.tar.gz && \
+    rm jdk-8u161-linux-x64.tar.gz && \
+    rm apache-maven-3.5.2-bin.tar.gz && \
+    rm checksums.txt
 
 ENV JAVA_HOME=/opt/jdk1.8.0_161
 ENV PATH="$JAVA_HOME/bin:$PATH"
@@ -90,7 +96,11 @@ RUN go get github.com/fstab/grok_exporter && \
 # Blackbox exporter
 
 RUN curl -sLO https://github.com/prometheus/blackbox_exporter/releases/download/v0.11.0/blackbox_exporter-0.11.0.linux-amd64.tar.gz && \
-    tar xfz blackbox_exporter-0.11.0.linux-amd64.tar.gz
+    echo '49160bd5368ed4a86d78b1bdfd9a5fcb9d1b69b4  blackbox_exporter-0.11.0.linux-amd64.tar.gz' > checksums.txt && \
+    sha1sum -c checksums.txt && \
+    tar xfz blackbox_exporter-0.11.0.linux-amd64.tar.gz && \
+    rm blackbox_exporter-0.11.0.linux-amd64.tar.gz && \
+    rm checksums.txt
 ENV PATH=/home/fabian/tools/blackbox_exporter-0.11.0.linux-amd64:$PATH
 
 # JMX exporter
